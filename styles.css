@@ -139,7 +139,8 @@ body.modal-open {
     0 14px 34px rgba(196, 30, 58, 0.14),
     0 0 0 1px rgba(196, 30, 58, 0.08),
     0 0 42px rgba(196, 30, 58, 0.22);
-  animation: heroGlassGlow 4.8s ease-in-out infinite, rubyCorePulse 7s ease-in-out infinite;
+  animation: heroGlassGlow 7.2s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+  will-change: box-shadow;
 }
 
 .hero-topic-red::before {
@@ -153,7 +154,9 @@ body.modal-open {
   z-index: -1;
   pointer-events: none;
   filter: blur(2px);
-  animation: rubyFacetShift 6.5s ease-in-out infinite;
+  opacity: 0.85;
+  animation: rubyFacetShift 10s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+  will-change: transform, opacity;
 }
 
 .hero-topic-red::after {
@@ -179,10 +182,11 @@ body.modal-open {
     );
   opacity: 0.86;
   transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
-  animation: rubyFacetShift 6.5s ease-in-out infinite reverse;
+  animation: rubyFacetShiftAlt 12s cubic-bezier(0.42, 0, 0.58, 1) infinite;
   mix-blend-mode: screen;
   z-index: -1;
   pointer-events: none;
+  will-change: transform, opacity;
 }
 
 .hero-topic-red h2 {
@@ -658,33 +662,23 @@ select:focus {
   0%,
   100% {
     transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
-    opacity: 0.78;
+    opacity: 0.72;
   }
   50% {
-    transform: translate3d(3%, -2%, 0) rotate(9deg) scale(1.05);
-    opacity: 1;
+    transform: translate3d(2%, -1.5%, 0) rotate(4deg) scale(1.03);
+    opacity: 0.94;
   }
 }
 
-@keyframes rubyCorePulse {
+@keyframes rubyFacetShiftAlt {
   0%,
   100% {
-    background: linear-gradient(
-      140deg,
-      rgba(129, 10, 32, 0.34) 0%,
-      rgba(196, 30, 58, 0.24) 34%,
-      rgba(225, 74, 104, 0.14) 58%,
-      rgba(255, 255, 255, 0.5) 100%
-    );
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+    opacity: 0.7;
   }
   50% {
-    background: linear-gradient(
-      140deg,
-      rgba(146, 12, 36, 0.38) 0%,
-      rgba(209, 34, 65, 0.3) 34%,
-      rgba(238, 93, 123, 0.2) 58%,
-      rgba(255, 255, 255, 0.55) 100%
-    );
+    transform: translate3d(-2%, 1.5%, 0) rotate(-5deg) scale(1.04);
+    opacity: 0.9;
   }
 }
 
