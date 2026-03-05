@@ -114,6 +114,31 @@ body.modal-open {
   animation-delay: 220ms;
 }
 
+.hero-topic {
+  border-radius: 18px;
+  padding: clamp(1rem, 2vw, 1.35rem);
+  border: 1px solid rgba(196, 30, 58, 0.35);
+}
+
+.hero-topic-red {
+  background: linear-gradient(
+    135deg,
+    rgba(196, 30, 58, 0.16) 0%,
+    rgba(196, 30, 58, 0.07) 55%,
+    rgba(255, 255, 255, 0.45) 100%
+  );
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.hero-topic-kicker {
+  margin: 0 0 0.65rem;
+  font-size: 0.73rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #9f1a30;
+}
+
 .hero-badge {
   display: inline-block;
   background: #141414;
@@ -132,17 +157,21 @@ body.modal-open {
 }
 
 .hero-copy p {
-  margin: 0.9rem 0 1rem;
+  margin: 0.75rem 0 0.95rem;
   color: var(--text-muted);
   line-height: 1.65;
 }
 
 .hero-points {
-  margin: 0;
+  margin: 0.25rem 0 0;
   padding-left: 1.2rem;
-  color: #2f2f2f;
+  color: #1f1f1f;
   display: grid;
   gap: 0.45rem;
+}
+
+.hero-points li::marker {
+  color: #9f1a30;
 }
 
 .form-card-wrap {
