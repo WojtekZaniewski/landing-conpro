@@ -117,7 +117,9 @@ body.modal-open {
 .hero-topic {
   border-radius: 18px;
   padding: clamp(1rem, 2vw, 1.35rem);
-  border: 1px solid rgba(196, 30, 58, 0.48);
+  border: 1px solid rgba(196, 30, 58, 0.52);
+  outline: 1px solid rgba(196, 30, 58, 0.22);
+  outline-offset: -1px;
   position: relative;
   overflow: hidden;
   isolation: isolate;
@@ -125,21 +127,20 @@ body.modal-open {
 
 .hero-topic-red {
   background: linear-gradient(
-    140deg,
-    rgba(129, 10, 32, 0.34) 0%,
-    rgba(196, 30, 58, 0.24) 34%,
-    rgba(225, 74, 104, 0.14) 58%,
-    rgba(255, 255, 255, 0.5) 100%
+    145deg,
+    rgba(196, 30, 58, 0.24) 0%,
+    rgba(196, 30, 58, 0.12) 38%,
+    rgba(255, 255, 255, 0.54) 100%
   );
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(155%);
+  -webkit-backdrop-filter: blur(18px) saturate(155%);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.45),
-    inset 0 -10px 30px rgba(196, 30, 58, 0.08),
-    0 14px 34px rgba(196, 30, 58, 0.14),
-    0 0 0 1px rgba(196, 30, 58, 0.08),
-    0 0 42px rgba(196, 30, 58, 0.22);
-  animation: heroGlassGlow 7.2s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+    inset 0 1px 0 rgba(255, 255, 255, 0.56),
+    inset 0 -16px 36px rgba(196, 30, 58, 0.08),
+    0 18px 40px rgba(196, 30, 58, 0.16),
+    0 0 0 1px rgba(196, 30, 58, 0.1),
+    0 0 36px rgba(196, 30, 58, 0.18);
+  animation: heroGlassGlow 8.5s ease-in-out infinite;
   will-change: box-shadow;
 }
 
@@ -153,40 +154,23 @@ body.modal-open {
   background: radial-gradient(circle, rgba(196, 30, 58, 0.36) 0%, rgba(196, 30, 58, 0) 72%);
   z-index: -1;
   pointer-events: none;
-  filter: blur(2px);
-  opacity: 0.85;
-  animation: rubyFacetShift 10s cubic-bezier(0.42, 0, 0.58, 1) infinite;
-  will-change: transform, opacity;
+  filter: blur(8px);
+  opacity: 0.7;
 }
 
 .hero-topic-red::after {
   content: "";
   position: absolute;
-  inset: -20% -15%;
-  background:
-    conic-gradient(
-      from 210deg at 35% 40%,
-      rgba(255, 255, 255, 0) 0deg,
-      rgba(255, 255, 255, 0.28) 35deg,
-      rgba(255, 255, 255, 0.03) 68deg,
-      rgba(255, 196, 209, 0.24) 110deg,
-      rgba(255, 255, 255, 0) 168deg,
-      rgba(255, 255, 255, 0.22) 208deg,
-      rgba(255, 255, 255, 0) 360deg
-    ),
-    linear-gradient(
-      118deg,
-      rgba(255, 255, 255, 0.16) 0%,
-      rgba(255, 255, 255, 0) 42%,
-      rgba(255, 216, 226, 0.18) 100%
-    );
-  opacity: 0.86;
-  transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
-  animation: rubyFacetShiftAlt 12s cubic-bezier(0.42, 0, 0.58, 1) infinite;
-  mix-blend-mode: screen;
+  inset: 0;
+  background: linear-gradient(
+    118deg,
+    rgba(255, 255, 255, 0.24) 0%,
+    rgba(255, 255, 255, 0.06) 42%,
+    rgba(255, 255, 255, 0.18) 100%
+  );
+  opacity: 0.78;
   z-index: -1;
   pointer-events: none;
-  will-change: transform, opacity;
 }
 
 .hero-topic-red h2 {
@@ -655,30 +639,6 @@ select:focus {
       0 18px 42px rgba(196, 30, 58, 0.2),
       0 0 0 1px rgba(196, 30, 58, 0.12),
       0 0 52px rgba(196, 30, 58, 0.3);
-  }
-}
-
-@keyframes rubyFacetShift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
-    opacity: 0.72;
-  }
-  50% {
-    transform: translate3d(2%, -1.5%, 0) rotate(4deg) scale(1.03);
-    opacity: 0.94;
-  }
-}
-
-@keyframes rubyFacetShiftAlt {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
-    opacity: 0.7;
-  }
-  50% {
-    transform: translate3d(-2%, 1.5%, 0) rotate(-5deg) scale(1.04);
-    opacity: 0.9;
   }
 }
 
