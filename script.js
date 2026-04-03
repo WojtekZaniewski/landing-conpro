@@ -6,6 +6,11 @@ const newsletterStatusEl = document.querySelector("#newsletter-status");
 const newsletterEmailInput = document.querySelector("#newsletter-email");
 const redirectScreen = document.querySelector("#redirect-screen");
 const LEAD_NOTIFICATION_EMAIL = "kancelaria.krakow@conpro.pl";
+const PIXEL_ID = "2250528372021920"; // uzupełnij po aktywacji pixela w Business Managerze
+
+function fbTrack(event, params) {
+  if (typeof fbq === "function") fbq("track", event, params || {});
+}
 const CALENDLY_BOOKING_URL =
   "https://calendly.com/kancelaria-krakow-conpro/30min?back=1&month=2026-03";
 const FORM_SUBMIT_ENDPOINT = `https://formsubmit.co/ajax/${encodeURIComponent(
@@ -128,6 +133,7 @@ async function submitNewsletterLead(email) {
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
+  fbTrack("InitiateCheckout");
   setStatus("", "");
 
   const data = new FormData(form);
@@ -157,12 +163,17 @@ form.addEventListener("submit", async (event) => {
       return;
     }
     if (!result.ok) {
+      console.error("FormSubmit error:", result.message);
       if (result.message.includes("open this page through a web server")) {
         setStatus("Uruchom stronę przez serwer (np. http://localhost:5500), a nie z pliku index.html.", "err");
         return;
       }
-      if (result.message.includes("activate your form")) {
-        setStatus("Sprawdź skrzynkę kontakt@conpro.pl i kliknij link aktywacyjny FormSubmit.", "err");
+      if (result.message.includes("activate") || result.message.includes("confirm") || result.message.includes("spam")) {
+        setStatus("Sprawdź skrzynkę kancelaria.krakow@conpro.pl (też spam) i kliknij link aktywacyjny FormSubmit.", "err");
+        return;
+      }
+      if (result.message) {
+        setStatus(`Błąd: ${result.message}`, "err");
         return;
       }
       throw new Error("Submit failed");
@@ -171,6 +182,19 @@ form.addEventListener("submit", async (event) => {
     form.reset();
     setCampaignParams();
     setStatus("", "");
+    const PAYOUT_VALUE_MAP = {
+      "Poniżej 5 000 zł": 2500,
+      "5 000-20 000 zł": 12500,
+      "20 000-50 000 zł": 35000,
+      "Powyżej 50 000 zł": 75000,
+      "Brak wypłaty": 0,
+    };
+    fbTrack("Lead", {
+      content_name: payload.damageType || "Nieznana szkoda",
+      content_category: "Odszkodowania",
+      value: PAYOUT_VALUE_MAP[payload.payoutAmount] ?? 0,
+      currency: "PLN",
+    });
     showRedirectScreen();
     setTimeout(() => {
       window.location.href = CALENDLY_BOOKING_URL;
@@ -187,6 +211,10 @@ form.addEventListener("submit", async (event) => {
 });
 
 setCampaignParams();
+fbTrack("ViewContent", {
+  content_name: "Landing Odszkodowania",
+  content_category: "Odszkodowania",
+});
 
 if (newsletterModal) {
   openNewsletterModal();
@@ -218,17 +246,23 @@ if (newsletterModal) {
         return;
       }
       if (!result.ok) {
+        console.error("FormSubmit newsletter error:", result.message);
         if (result.message.includes("open this page through a web server")) {
           setNewsletterStatus("Uruchom stronę przez serwer (localhost), wtedy zapis zadziała.", "err");
           return;
         }
-        if (result.message.includes("activate your form")) {
-          setNewsletterStatus("Aktywuj formularz przez link wysłany na kontakt@conpro.pl.", "err");
+        if (result.message.includes("activate") || result.message.includes("confirm") || result.message.includes("spam")) {
+          setNewsletterStatus("Sprawdź skrzynkę kancelaria.krakow@conpro.pl (też spam) i kliknij link aktywacyjny FormSubmit.", "err");
+          return;
+        }
+        if (result.message) {
+          setNewsletterStatus(`Błąd: ${result.message}`, "err");
           return;
         }
         throw new Error("Newsletter submit failed");
       }
 
+      fbTrack("CompleteRegistration");
       setNewsletterStatus("Dziękujemy! Wskazówki wyślemy na podany adres.", "ok");
       setTimeout(closeNewsletterModal, 700);
     } catch (error) {
